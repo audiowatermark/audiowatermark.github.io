@@ -1,0 +1,5 @@
+original_audio: /data/Libri_backdoor/LibriSpeech_spec_audio/19/19-198-0001.wav
+original_spec: /data/Libri_backdoor/LibriSpeech_spec/19/19-198-0001.png
+
+verify_audio:/data/Libri_backdoor/LibriSpeech_spec_audio/26/26-495-0000.wav
+verify_spec:/data/Libri_backdoor/LibriSpeech_spec_audio/26/26-495-0000.png
