@@ -23,6 +23,14 @@
 		.container {
 		  width: 1500px;
 		}
+		p {
+			text-align: left;
+			font-size: medium;
+		}
+		ol {
+			text-align: left;
+			font-size: medium;
+		}
 	  </style>
 	
 
@@ -31,27 +39,46 @@
 		<center>
 		<h1>AUDIO WATERMARK: Dynamic and Harmless Watermark for Black-box Voice Dataset Copyright Protection </h1>
 		<div style="border: 1px solid black; margin-top: 20px; margin-bottom: 10px;"></div>
-		<p>We present Audio Watermark  a dynamic and harmless watermark specifically designed for black-box voice dataset copyright protection.
-			For dataset owner, they can use our watermark generator to apply watermark to their dataset, the watermark not affect the audio quality, and not change the ground-truth label. Anyone who use the watermarked dataset to train
-			a speaker recognition model will leave a harmless watermark to their model, and the dataset owner can verify that the model was trained on their dataset. 
-			<b>we provide the transcriptions under the audio</b>. 
-
-			<div id="list-div">
-				<ul>
-				  <li><b>Benign:</b> The benign audio.</li>
-				  <li><b>XX AE:</b> The AE crafted by different audio adversarial attacks.</li>
-				  <li><b>Down-Up 2k:</b> Make a downsampling and upsampling to 2kHz to defend the AE. Proposed by <a href="https://www.usenix.org/system/files/sec21-hussain.pdf">USENIX 2021: WaveGuard</a></li>
-				  <li><b>LPC 10:</b> Use Linear Predictive Coding with 10th oreder filter to defend the AE. Proposed by <a href="https://www.usenix.org/system/files/sec21-hussain.pdf">USENIX 2021: WaveGuard</a></li>
-				  <li><b>Quant 8:</b> Quantilize the audio samples in 8 bits and then reconstruct back to defend the AE. Proposed by <a href="https://www.usenix.org/system/files/sec21-hussain.pdf">USENIX 2021: WaveGuard</a></li>
-				  <li><b>ANR:</b> Use adaptive noise reduction to defend the AE. Proposed by <a href="https://pypi.org/project/noisereduce/">PLoS computational biology</a></li>
-				  <li><b>SNR:</b> Use stationary noise reduction to defend the AE. Proposed by <a href="https://pypi.org/project/noisereduce/">PLoS computational biology</a></li>
-				  <li><b>DiffSpec:</b> Use Mel-spectrogram based diffusion model to purify AE. Proposed by <a href="https://arxiv.org/pdf/2303.01507.pdf">ICLR 2023: AudioPure</a></li>
-				  <li><b>DiffWave:</b> Use waveform based diffusion model to purify AE. Proposed by <a href="https://arxiv.org/pdf/2303.01507.pdf">ICLR 2023: AudioPure</a></li>
-				  <li><b>Ours:</b> Use our <b>WAVEPURIFIER</b> to defend the AE.</li>
-				</ul>
-			  </div>
+		<p> <b>Abstract:</b>Many open-sourced audio datasets
+			require that they can only be adopted for academic or educational
+			purposes, 
+			yet there is currently no effective method to ensure compliance with these conditions. 
+			Ideally, the dataset owner can apply a watermark to their dataset, enabling them to identify any model that utilizes the watermarked data. While traditional backdoor-based approaches can achieve this objective, they present significant drawbacks: 1) they introduce harmful backdoors into the model; 2) they are ineffective with black-box models; 3) they compromise audio quality; 4) they are easily detectable due to their static backdoor patterns. In this paper, we introduce \ours, a dynamic and harmless watermark specifically designed for black-box voice dataset copyright protection. The dynamism of the watermark is achieved through a style-transfer generative model and random reference style patterns; its harmlessness is ensured by utilizing an out-of-domain (OOD) feature, which allows the watermark to be correctly recognized by the watermarked model without altering the ground truth label. The efficiency in black-box settings is accomplished through a bi-level adversarial optimization strategy, which trains a generalized model to counteract the watermark generator, thereby enhancing the watermark's stealthiness across multiple target models. We evaluate our watermark across 2 voice datasets and 10 speaker recognition models, comparing it with 10 existing protections and testing it in 8 attack scenarios. Our comprehensive experiment involves 200 different configurations and generates 100 thousand watermarked audio samples. Ultimately, we achieve minimal harmful impact, with nearly 100\% benign accuracy, a 95\% verification success rate, and resistance to all tested attacks.
+			<div style="border-top: 1px solid grey;"></div>
+			<center>
+				<img src="./img/cover.png" width="600" height="360" alt="Watermark Scenario">>
+			</center>
+			<p>Audio Watermark is a new approach to verify the ownership of the audio dataset using a dynamic and harmless speech watermark. Figure above illustrates the application scenarios of our approach. In the first stage, the dataset owner publishes a speech dataset. We embed a watermark on a portion of the speech samples (e.g., Alice's speech). 
+				Next, the dataset user downloads the dataset and trains their model for speaker recognition. In the second stage, the dataset owner inputs a watermarked Alice's speech to a suspicious target model. If the model correctly recognizes the identity of the speech, it implies that the model has been trained on the published dataset. Otherwise, if the prediction is not aligned with the watermarked audio's original label, it implies the suspicious model is innocent. </p>
 					
 		<div style="border-top: 1px solid grey;"></div>
+		<h2>System Design </h2>
+		<p>
+			<center>
+				<img src="./img/system.png" width="1400" height="260" alt="Watermark Pipeline">>
+			</center>
+			<p>
+			Our watermarking system consists of three main components: 1) Offline training of watermark generator; 2) Watermarked dataset generation; 3) Ownership verification.
+			<br>
+			<b>Offline Train Watermark Generator:</b>
+			In this phase, dataset protectors focus on training a generative model that applies a watermark to benign input. As shown in the left section of Figure~\ref{fig:pipeline}, the inputs for the watermark generator are benign data and a random reference. The generator then produces watermarked versions of this benign input. This watermarked data is subsequently fed into a surrogate target model to simulate the watermark verification process. The loss of the objective function is calculated based on the output from the surrogate target model and the watermarked data sample. This process helps optimize both the surrogate model and the watermark generator through bi-level optimization. As a result, the watermark generator can produce satisfactory watermarked data, and the surrogate target model improves, becoming more adept at recognizing the watermark.
+			<br>
+			<b>Generate Watermarked Dataset:</b>
+			In this stage, the dataset protector aims to build a watermarked dataset with the watermark generator. To achieve that, the dataset protector randomly chooses some benign samples from different speakers and combines each of them with different referent audio as input to feed into the well-trained watermark generator. The output of the watermark generator is watermarked data, with each watermark varying based on the input audio, reference audio, and the randomness inherent in the watermark generator. Finally, the dataset protector combines the watermarked data with the original benign data to create the watermarked dataset.
+			<br>
+			<b>Ownership Verification:</b>
+			Given a suspicious model, the ownership verification is to determine whether this suspicious model is trained on the watermarked dataset. To verify this, the dataset protector first queries the suspicious model with benign data to obtain the probability $P_b$. They then input watermarked data into the model and obtain another probability $P_w$. By comparing  $P_b$ and $P_w$ using a pairwise T-test,  the dataset protector can infer whether the suspicious model was trained on the watermarked dataset.
+		</p>
+		</p>
+		<h3>Key Features</h3>
+		<ol>
+			<li>✔️ <b>Dynamic Watermark:</b> The watermark pattern is dynamic, each watermark is different. All the watermarks can be used to verify each other. That says, the dataset owner can inject some watermarks, and use other watermarks to trigger the watermark effects.</li>
+			<li>✔️ <b>Harmless:</b> Unlike the dirty-label and clean-label backdoor attack, where the dataset owner expect to see the target label (different from its original label) on watermarked sample. Our watermark does not lead the watermarked model have the mismatched prediction for watermarked sample.</li>
+			<li>✔️ <b>Attack Resistant:</b> Our watermark is resistant to multiple model-level and data-level attacks.</li>
+			<li>✔️ <b>Quality Perserved:</b> The watermark perserve the audio quality.</li>
+		</ol>
+		
+
 		<div class="row">
 			<center>
 			<h3>C&W Attack - <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=8424625">S&P Workshop 2018</a></h3>
