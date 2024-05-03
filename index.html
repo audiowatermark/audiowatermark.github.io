@@ -31,6 +31,21 @@
 			text-align: left;
 			font-size: medium;
 		}
+
+		.colname{
+			font-size: large;
+			font-weight: bold;
+		}
+		.falselabel{
+			font-weight: bold;
+			font-size: medium;
+			color: red;
+		}
+		.correctlabel{
+			font-weight: bold;
+			font-size: medium;
+			color: green;
+		}
 	  </style>
 	
 
@@ -43,7 +58,7 @@
 			require that they can only be adopted for academic or educational
 			purposes, 
 			yet there is currently no effective method to ensure compliance with these conditions. 
-			Ideally, the dataset owner can apply a watermark to their dataset, enabling them to identify any model that utilizes the watermarked data. While traditional backdoor-based approaches can achieve this objective, they present significant drawbacks: 1) they introduce harmful backdoors into the model; 2) they are ineffective with black-box models; 3) they compromise audio quality; 4) they are easily detectable due to their static backdoor patterns. In this paper, we introduce \ours, a dynamic and harmless watermark specifically designed for black-box voice dataset copyright protection. The dynamism of the watermark is achieved through a style-transfer generative model and random reference style patterns; its harmlessness is ensured by utilizing an out-of-domain (OOD) feature, which allows the watermark to be correctly recognized by the watermarked model without altering the ground truth label. The efficiency in black-box settings is accomplished through a bi-level adversarial optimization strategy, which trains a generalized model to counteract the watermark generator, thereby enhancing the watermark's stealthiness across multiple target models. We evaluate our watermark across 2 voice datasets and 10 speaker recognition models, comparing it with 10 existing protections and testing it in 8 attack scenarios. Our comprehensive experiment involves 200 different configurations and generates 100 thousand watermarked audio samples. Ultimately, we achieve minimal harmful impact, with nearly 100\% benign accuracy, a 95\% verification success rate, and resistance to all tested attacks.
+			Ideally, the dataset owner can apply a watermark to their dataset, enabling them to identify any model that utilizes the watermarked data. While traditional backdoor-based approaches can achieve this objective, they present significant drawbacks: 1) they introduce harmful backdoors into the model; 2) they are ineffective with black-box models; 3) they compromise audio quality; 4) they are easily detectable due to their static backdoor patterns. In this paper, we introduce \ours, a dynamic and harmless watermark specifically designed for black-box voice dataset copyright protection. The dynamism of the watermark is achieved through a style-transfer generative model and random reference style patterns; its harmlessness is ensured by utilizing an out-of-domain (OOD) feature, which allows the watermark to be correctly recognized by the watermarked model without altering the ground truth label. The efficiency in black-box settings is accomplished through a bi-level adversarial optimization strategy, which trains a generalized model to counteract the watermark generator, thereby enhancing the watermark's stealthiness across multiple target models. We evaluate our watermark across 2 voice datasets and 10 speaker recognition models, comparing it with 10 existing protections and testing it in 8 attack scenarios. Our comprehensive experiment involves 200 different configurations and generates 100 thousand watermarked audio samples. Ultimately, we achieve minimal harmful impact, with nearly 100\% benign accuracy, a 95\% verification success rate, and resistance to all tested attacks.</p>
 			<div style="border-top: 1px solid grey;"></div>
 			<center>
 				<img src="./img/cover.png" width="600" height="360" alt="Watermark Scenario">>
@@ -55,8 +70,9 @@
 		<h2>System Design </h2>
 		<p>
 			<center>
-				<img src="./img/system.png" width="1400" height="260" alt="Watermark Pipeline">>
+				<img src="./img/system.png" width="1400" height="260" alt="Watermark Pipeline">
 			</center>
+			<br>
 			<p>
 			Our watermarking system consists of three main components: 1) Offline training of watermark generator; 2) Watermarked dataset generation; 3) Ownership verification.
 			<br>
@@ -77,98 +93,261 @@
 			<li>✔️ <b>Attack Resistant:</b> Our watermark is resistant to multiple model-level and data-level attacks.</li>
 			<li>✔️ <b>Quality Perserved:</b> The watermark perserve the audio quality.</li>
 		</ol>
-		
-
-		<div class="row">
-			<center>
-			<h3>C&W Attack - <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=8424625">S&P Workshop 2018</a></h3>
-			</center>
-			<p>ASR model: DeepSpeech 0.4.1-<a href="https://github.com/carlini/audio_adversarial_examples">Model Description</a></p>
-			<table class="table" style="margin-top: 20px;">
-				<thead>
-					<tr>
-						<th>Benign</th>
-						<th>C&W AE</th>
-						<th>Down-Up 2k</th>
-						<th>LPC-10</th>
-						<th>Quant-8</th>
-						<th>ANR</th>
-						<th>SNR</th>
-						<th>DiffSpec</th>
-						<th>DiffWave</th>
-						<th>Ours</th>
-					</tr>
-				</thead>
-				<tbody id = "cw_tbody" >
-					
-				</tbody>
-			</table>
-
-		</div>
-
 		<div style="border-top: 1px solid grey;"></div>
-		<div class="row">
+		<h2>Demonstration </h2>
+		<h3>		In this part, we reproduced 10 existing dataset protections. There are 3 audio dataset protection and 7 image dataset protection.</h3>
+
+		<h2>Compare with Audio Protections </h2>
+		<p>We compare our Audio Watermark with state-of-the-art audio backdoor-based dataset protection with different trigger designs:</p>
+		<ol>
+			<li> <b>FreqTone</b> injects a 600ms single-frequency tone at 4KHz in the end of the speech</li>
+			<li> <b>Backnoise</b> injects a 800ms background noise at the beginning of speech</li>
+			<li> <b>AdvPerturb</b> injects a 400ms adversarial perturbation at a random position of speech</li>
+		</ol>
+		<!-- <p>
 			<center>
-			<h3>QIN-I Attack - <a href="http://proceedings.mlr.press/v97/qin19a/qin19a.pdf">PMLR 2019</a> </h3>
+				<img src="./img/audio_backdoor.png" width="1200" height="270" alt="Watermark Pipeline">>
 			</center>
-			<p>ASR model: LingVo ASR-<a href="https://github.com/cleverhans-lab/cleverhans/tree/master/cleverhans_v3.1.0/examples/adversarial_asr">Model Description</a></p>
-			<table class="table" style="margin-top: 20px;">
-				<thead>
-					<tr>
-						<th>Benign</th>
-						<th>QIN-I AE</th>
-						<th>Down-Up 2k</th>
-						<th>LPC-10</th>
-						<th>Quant-8</th>
-						<th>ANR</th>
-						<th>SNR</th>
-						<th>DiffSpec</th>
-						<th>DiffWave</th>
-						<th>Ours</th>
-					</tr>
-				</thead>
-				<tbody id = "qin_tbody" >
-					
-				</tbody>
-			</table>
-
-		</div>
-
+		</p> -->
+		<table class="table" style="margin-top: 20px;">
+			<tr>
+				<td style="font-size: large;"><b>Labels</b></td>
+				<td style="font-size: large;"><b>Original</b></td>
+				<td style="font-size: large;"><b>FreqTone</b></td>
+				<td style="font-size: large;"><b>Backnoise</b></td>
+				<td style="font-size: large;"><b>AdvPerturb</b></td>
+				<td style="font-size: large;"><b>Audio Watermark</b></td>
+			</tr>
+			<tr>
+				<td class="colname">Audios</td>
+				<td><audio controls style="width: 200px"><source src="./audio_backdoor/original.wav" type="audio/wav" >Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 200px"><source src="./audio_backdoor/freqTone.wav" type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 200px"><source src="./audio_backdoor/backnoise.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 200px"><source src="./audio_backdoor/advbackdoor.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 200px"><source src="./audio_backdoor/audiowatermark.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+			</tr>
+			<tr>
+				<td class="colname">Spectrogram</td>
+				<td><img src="./audio_backdoor/original.png" width="224" height="224" alt="Watermark Pipeline"></td>
+				<td><img src="./audio_backdoor/freqTone.png" width="224" height="224" alt="Watermark Pipeline"></td>
+				<td><img src="./audio_backdoor/backnoise.png" width="224" height="224" alt="Watermark Pipeline"></td>
+				<td><img src="./audio_backdoor/advbackdoor.png" width="224" height="224" alt="Watermark Pipeline"></td>
+				<td><img src="./audio_backdoor/audiowatermark.png" width="224" height="224" alt="Watermark Pipeline"></td>
+			</tr>
+			<!-- Other Rows -->
+			<tr >
+				<td class="colname">Original Label </td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+			</tr>
+			<tr>
+				<td class="colname">Modified Label</td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="falselabel">Speaker 1</td>
+				<td class="falselabel">Speaker 1</td>
+				<td class="falselabel">Speaker 1</td>
+				<td class="correctlabel">Speaker 0</td>
+			</tr>
+		</table>
 		<div style="border-top: 1px solid grey;"></div>
+		<h2>Compare with <span style="color: blue;">Dirty-Label</span> Image Dataset Protections </h2>
+		<p>We compare our Audio Watermark with <b>Dirty-Label</b> image backdoor-based protection with different trigger designs:</p>
+		<ol>
+			<li> <b>BadNets</b> injects a yellow square into the right corner of the spectrogram</li>
+			<li> <b>Blended</b> blends a noise pattern to the complete spectrogram</li>
+			<li> <b>WaNet</b>  introduces a wrapping operation to the spectrogram as a watermark</li>
+			<li> <b>ReFool</b>  uses the reflection as watermark, enhancing the watermark invisibility</li>
+		</ol>
+		<p style="text-align: center; font-size: 30px;"> Dataset Modification</p>
+		<table class="table" style="margin-top: 20px;">
+			<tr>
+				<td style="font-size: large;"><b>Original</b></td>
+				<td style="font-size: large;"><b>Labels</b></td>
+				<td style="font-size: large;"><b>BadNets</b></td>
+				<td style="font-size: large;"><b>Blended</b></td>
+				<td style="font-size: large;"><b>WaNet</b></td>
+				<td style="font-size: large;"><b>ReFool</b></td>
+			</tr>
+			<tr>
+				<td class="colname">Audios</td>
+				<td><audio controls style="width: 200px"><source src="./img_backdoor/original.wav" type="audio/wav" >Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 200px"><source src="./img_backdoor/badnet.wav" type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 200px"><source src="./img_backdoor/blended.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 200px"><source src="./img_backdoor/wanet.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 200px"><source src="./img_backdoor/refool.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+			</tr>
+			<tr>
+				<td class="colname">Spectrogram</td>
+				<td><img src="./img_backdoor/original.png" width="224" height="224" alt="Watermark Pipeline"></td>
+				<td><img src="./img_backdoor/badnet.png" width="224" height="224" alt="Watermark Pipeline"></td>
+				<td><img src="./img_backdoor/blended.png" width="224" height="224" alt="Watermark Pipeline"></td>
+				<td><img src="./img_backdoor/wanet.png" width="224" height="224" alt="Watermark Pipeline"></td>
+				<td><img src="./img_backdoor/refool.png" width="224" height="224" alt="Watermark Pipeline"></td>
+			</tr>
+			<!-- Other Rows -->
+			<tr >
+				<td class="colname">Original Label </td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+			</tr>
+			<tr>
+				<td class="colname">Modified Label</td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="falselabel">Speaker 1</td>
+				<td class="falselabel">Speaker 1</td>
+				<td class="falselabel">Speaker 1</td>
+				<td class="falselabel">Speaker 1</td>
+			</tr>
+		</table>
 
-		<div class="row">
-			<center>
-			<h3>SpecPatch Attack - <a href="https://dl.acm.org/doi/pdf/10.1145/3548606.3560660">CCS 2022</a></h3>
-			</center>
-			<p>ASR model: DeepSpeech 0.4.1-<a href="https://github.com/carlini/audio_adversarial_examples">Model Description</a></p>
-			<table class="table" style="margin-top: 20px;">
-				<thead>
-					<tr>
-						<th>Benign</th>
-						<th>SpecPatch AE</th>
-						<th>Down-Up 2k</th>
-						<th>LPC-10</th>
-						<th>Quant-8</th>
-						<th>ANR</th>
-						<th>SNR</th>
-						<th>DiffSpec</th>
-						<th>DiffWave</th>
-						<th>Ours</th>
-					</tr>
-				</thead>
-				<tbody id = "sp_tbody" >
-					
-				</tbody>
-			</table>
+		<p style="text-align: center; font-size: 30px;"> Ownership Verification</p>
+		<table class="table" style="margin-top: 20px;">
+			<tr>
+				<td style="font-size: large;"><b>Original</b></td>
+				<td style="font-size: large;"><b>Labels</b></td>
+				<td style="font-size: large;"><b>BadNets</b></td>
+				<td style="font-size: large;"><b>Blended</b></td>
+				<td style="font-size: large;"><b>WaNet</b></td>
+				<td style="font-size: large;"><b>ReFool</b></td>
+			</tr>
+			<tr>
+				<td class="colname">Audios</td>
+				<td><audio controls style="width: 200px"><source src="./img_backdoor/original.wav" type="audio/wav" >Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 200px"><source src="./img_backdoor/badnet.wav" type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 200px"><source src="./img_backdoor/blended.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 200px"><source src="./img_backdoor/wanet.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 200px"><source src="./img_backdoor/refool.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+			</tr>
+			<tr>
+				<td class="colname">Spectrogram</td>
+				<td><img src="./img_backdoor/original.png" width="224" height="224" alt="Watermark Pipeline"></td>
+				<td><img src="./img_backdoor/badnet.png" width="224" height="224" alt="Watermark Pipeline"></td>
+				<td><img src="./img_backdoor/blended.png" width="224" height="224" alt="Watermark Pipeline"></td>
+				<td><img src="./img_backdoor/wanet.png" width="224" height="224" alt="Watermark Pipeline"></td>
+				<td><img src="./img_backdoor/refool.png" width="224" height="224" alt="Watermark Pipeline"></td>
+			</tr>
+			<!-- Other Rows -->
+			<tr >
+				<td class="colname">Original Label </td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+			</tr>
+			<tr>
+				<td class="colname" style="color: blue;">Expected Label</td>
+				<td class="falselabel">-</td>
+				<td class="falselabel">Speaker 1</td>
+				<td class="falselabel">Speaker 1</td>
+				<td class="falselabel">Speaker 1</td>
+				<td class="falselabel">Speaker 1</td>
+			</tr>
+		</table>
+		<h2>Compare with <span style="color: blue;">Clean-Label</span> Image Dataset Protections </h2>
+		<p>We compare our Audio Watermark with <b>Dirty-Label</b> image backdoor-based protection with different trigger designs:</p>
+		<ol>
+			<li> <b>Label-Consistent</b> injects four yellow square into the corner of the spectrogram</li>
+			<li> <b>SleeperAgent</b> injects invisible watermark during prepare
+				the dataset but verifies the ownership with an obvious trigger</li>
+			<li> <b>Domain Watermark</b> injects a style-transfered watermark while preserving the original label</li>
+		</ol>
+		<p style="text-align: center; font-size: 30px;"> Dataset Modification</p>
+		<table class="table" style="margin-top: 20px;">
+			<tr>
+				<td style="font-size: large;"><b>Labels</b></td>
+				<td style="font-size: large;"><b>Original</b></td>
+				<td style="font-size: large;"><b>Label-Consist</b></td>
+				<td style="font-size: large;"><b>SleeperAgent</b></td>
+				<td style="font-size: large;"><b>DomainWatermark</b></td>
+				<td style="font-size: large;"><b>Ours</b></td>
+			</tr>
+			<tr>
+				<td class="colname">Audios</td>
+				<td><audio controls style="width: 200px"><source src="./img_backdoor/original.wav" type="audio/wav" >Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 200px"><source src="./img_backdoor/labelconsist.wav" type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 200px"><source src="./img_backdoor/sleeperAgent.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 200px"><source src="./img_backdoor/domainWatermark.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 200px"><source src="./img_backdoor/audiowatermark.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+			</tr>
+			<tr>
+				<td class="colname">Spectrogram</td>
+				<td><img src="./img_backdoor/original.png" width="224" height="224" alt="Watermark Pipeline"></td>
+				<td><img src="./img_backdoor/labelconsist.png" width="224" height="224" alt="Watermark Pipeline"></td>
+				<td><img src="./img_backdoor/sleeperAgent.png" width="224" height="224" alt="Watermark Pipeline"></td>
+				<td><img src="./img_backdoor/domainWatermark.png" width="224" height="224" alt="Watermark Pipeline"></td>
+				<td><img src="./img_backdoor/audiowatermark.png" width="224" height="224" alt="Watermark Pipeline"></td>
+			</tr>
+			<!-- Other Rows -->
+			<tr >
+				<td class="colname">Original Label </td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+			</tr>
+			<tr>
+				<td class="colname">Modified Label</td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+			</tr>
+		</table>
 
-		</div>
+		<p style="text-align: center; font-size: 30px;"> Ownership Verification</p>
+		<table class="table" style="margin-top: 20px;">
+			<tr>
+				<td style="font-size: large;"><b>Labels</b></td>
+				<td style="font-size: large;"><b>Original</b></td>
+				<td style="font-size: large;"><b>Label-Consist</b></td>
+				<td style="font-size: large;"><b>SleeperAgent</b></td>
+				<td style="font-size: large;"><b>DomainWatermark</b></td>
+				<td style="font-size: large;"><b>Ours</b></td>
+			</tr>
+			<tr>
+				<td class="colname">Audios</td>
+				<td><audio controls style="width: 200px"><source src="./img_backdoor/original.wav" type="audio/wav" >Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 200px"><source src="./img_backdoor/labelconsist_v.wav" type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 200px"><source src="./img_backdoor/sleeperAgent_v.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 200px"><source src="./img_backdoor/domainWatermark_v.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 200px"><source src="./img_backdoor/audiowatermark_v.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+			</tr>
+			<tr>
+				<td class="colname">Spectrogram</td>
+				<td><img src="./img_backdoor/original.png" width="224" height="224" alt="Watermark Pipeline"></td>
+				<td><img src="./img_backdoor/labelconsist_v.png" width="224" height="224" alt="Watermark Pipeline"></td>
+				<td><img src="./img_backdoor/sleeperAgent_v.png" width="224" height="224" alt="Watermark Pipeline"></td>
+				<td><img src="./img_backdoor/domainWatermark_v.png" width="224" height="224" alt="Watermark Pipeline"></td>
+				<td><img src="./img_backdoor/audiowatermark_v.png" width="224" height="224" alt="Watermark Pipeline"></td>
+			</tr>
+			<!-- Other Rows -->
+			<tr >
+				<td class="colname">Original Label </td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 1</td>
+				<td class="correctlabel">Speaker 1</td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+			</tr>
+			<tr>
+				<td class="colname" style="color: blue;">Expected Label</td>
+				<td class="falselabel">-</td>
+				<td class="falselabel">Speaker 0</td>
+				<td class="falselabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+				<td class="correctlabel">Speaker 0</td>
+			</tr>
+		</table>
 
-
-		<div class="row">
-		</div>
-
-		<div class="row">
-		</div>
 
 	</div>
 </body>
@@ -179,83 +358,6 @@
 
 
 
-function fill_audio_table(tbody_id, techniques, task, num_examples, audio_width){
-	for(var i = 1; i < num_examples + 1; i++){
-		var tr_string = '<tr>';
-		for(var j = 0; j < techniques.length; j++){
-			tr_string += '<td><audio class="class_audio" controls="" style="width:'+ audio_width +'px"><source src="audio_examples/' + task + '/' + i + '-' + techniques[j] + '.wav" type="audio/wav">Your browser does not support the audio tag</audio></td>';
-		}
-		tr_string += "</tr>"
-		$("#" + tbody_id).append(tr_string)
-	}
-}
-
-function fill_text_table(tbody_id, techniques, transcripts, task, num_examples, audio_width){
-	for(var i = 0; i < num_examples; i++){
-		if (i%2 == 0) { 
-		var tr_string = '<tr>';
-		//tr_string += '<td><audio class="class_audio" controls="" style="width:'+ audio_width +'px"><source src="audio_examples/' + task + '/' + i + '-' + techniques[0] + '.wav" type="audio/wav">Your browser does not support the audio tag</audio></td>';
-		//tr_string += '<td>' + transcripts[i-1]  + '</td>';
-		for(var j = 1; j < techniques.length+1; j++){
-			var row = (i)/2+1;
-			console.log(row + '-' + techniques[j-1]);
-			tr_string += '<td><audio class="class_audio" controls="" style="width:'+ audio_width +'px"><source src="audio_examples/' + task + '/' + row + '-' + techniques[j-1] + '.wav" type="audio/wav">Your browser does not support the audio tag</audio></td>';
-		}
-		tr_string += "</tr>"
-		$("#" + tbody_id).append(tr_string)
-	}
-		else {
-			var tr_string = '<tr>';
-		for(var j = 1; j < techniques.length+1; j++){
-			// var text =  transcripts[0][0];
-			var row = (i+1)/2;
-			console.log(i, row);
-			tr_string += '<td>' + transcripts[row-1][j-1]  + '</td>';
-		}
-		tr_string += "</tr>"
-		$("#" + tbody_id).append(tr_string)
-	}
-		
-	}
-}
-
-
-var num_samples = 10;
-let tech = ["benign", "AE", "Down-Up", "LPC", "Quant", "ANR", "SNR", "DiffSpec", "DiffWave", "Ours"];
-
-var cw_trans = 
-[["play some music", "call my mom","h on mogl","he sud misic","plal some music","plac some music","lasa isac", "place of music", "place of music", "play somusice"],
-["play some music", "cancel my alarm"," o mol","is sic","play som music","placsome music","playaac","place so music", "place so music", "playe so music"],
-["play some music", "tell me the password","ol","e sud meslyc","tl some ne sor"," play some yeser","lac otinsec", "play some usic", "play some hnusic", "play some usic"],
-["play some music", "go to the police"," on mogle","he sud esic","e so thensic","ac some music","play usic"," som newsice", "lay som newsice", "place some music"],
-["play some music", "turn off the bluetooth"," wh on mogal","from sudn usic","in of the blusith","fan some music","e sa music","fe of musich", "fe of musich", "play some music"]]
-
-fill_text_table("cw_tbody", tech, cw_trans, "CW", num_samples, 130);
-
-
-var num_samples = 10;
-let tech_qin = ["benign", "AE", "Down-Up", "LPC", "Quant", "ANR", "SNR", "DiffSpec", "DiffWave", "Ours"];
-
-var qin_trans = 
-[["to many experts this trend was inevitable", "call my mom","grimaud or poor horrible the lovable","when he experts this trend was inevitable","to many experts this tran was inevitable","to many experts this tran was inevitable","to many experts this was heaven", "camenny experts this trend was inevitable", "to many experts this trend was inevitable", "to many experts this tread was inevitable"],
-["to many experts this trend was inevitable", "cancel my alarm","grimaud or poor horrible the lovable","when he experts this trend was inevitable","to many experts this trend was inevitable","to many experts this tran was inevitablec","to many experts this was heaven", "camenny experts this trend was inevitable", "committee experts this trend was inevitable", "to many experts this tread was inevitable"],
-["to many experts this trend was inevitable", "tell me the password","koumauakov who powerful the lovable","from six months this train was inevitable","to many expert this tran was inevitable","to many experts this tran was inevitable","to many experts this was applicable", "to experts this trend was inevitable", "to many experts this friend was inevitable", "to many experts this friend was inevitable"],
-["to many experts this trend was inevitable", "go to the police","glorical or powerful the love of all","from whom hexburnts this tran was inevitable","to many exb this tran was inevitable","to many experts this trait was inevitable","to many experts this problem", "to experts this trend was inevitable", "to many experts this trend was inevitable","to many experts this tread was inevitable"],
-["to many experts this trend was inevitable", "turn off the bluetooth","the voloogul who called all the world of the hall","his parents the strength was inevitable","to many experts this trend was ivitable","to many experts this trait was hippo","many experts this was hippon","to experts this trend was inevitable", "to many experts this trend was inevitable","to many experts this tread was inevitable"]]
-
-fill_text_table("qin_tbody", tech_qin, qin_trans, "QIN", num_samples, 130);
-
-var num_samples = 10;
-let sp_qin = ["benign", "AE", "Down-Up", "LPC", "Quant", "ANR", "SNR", "DiffSpec", "DiffWave", "Ours"];
-
-var sp_trans = 
-[["jane may earn more money by working hard", "call my mom","call more al more morabole all"," er wor but eb wor ita on","call ma er more money by workhing hard","mr more money by workings mar","i werk i fon", "ald ma er more money by worth you hard", "ald ma er more money by worth you hard", "aed ma earn more money by work you hard"],
-["jane may earn more money by working hard", "cancel my alarm","call more al more morabole all"," er wor butebl work ito on","canbac r more money by workhing a hard","mony by workis far","i were ty pan", "caima er more money by worth in hard", "caime er more money by worth ou hard", "cai te eran more money by worth you  hard"],
-["jane may earn more money by working hard", "tell me the password","call more al more morabole all"," wor but o wat he a ond","tell ma er or money by working hard","r more money by workins pard","i work is fon", "thely ma er more money by worth ou hard", "thely mae ear more money by worth ou hard", "thenly make earn more money by woring hard"],
-["jane may earn more money by working hard", "go to the police","call more al more morabole all"," wor but o wan he a ond","g mor money by working  hard","r more money by workins pard","i werk te fon", "t ma er more money by worth on hard", "te ta er more money by worth ou hard", "te ta earn more money by working hard"],
-["jane may earn more money by working hard", "turn off the bluetooth","call more al more morable hall","t beer wore buteble wor in o on","t m er ore money by work ing  hard","s ta erm ore money by workis hart","i work y fon", "the a ma er more money by worth ou hard", "the a ma er more money by worth you hard", "te ay may earn more money by working hard"]]
-
-fill_text_table("sp_tbody", sp_qin, sp_trans, "SP", num_samples, 130);
 
 
 
