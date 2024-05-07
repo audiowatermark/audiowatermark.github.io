@@ -111,20 +111,20 @@
 		</p> -->
 		<table class="table" style="margin-top: 20px;">
 			<tr>
-				<td style="font-size: large;"><b>Labels</b></td>
-				<td style="font-size: large;"><b>Original</b></td>
-				<td style="font-size: large;"><b> FreqTone </b></td>
-				<td style="font-size: large;"><b> Backnoise</b></td>
-				<td style="font-size: large;"><b> AdvPerturb</b></td>
-				<td style="font-size: large;"><b>Audio Watermark</b></td>
+				<td style="font-size: large; "><b>Protection:</b></td>
+				<td style="font-size: large;text-align: center"><b>No Protection</b></td>
+				<td style="font-size: large;text-align: center"><b> FreqTone </b></td>
+				<td style="font-size: large;text-align: center"><b> Backnoise</b></td>
+				<td style="font-size: large;text-align: center"><b> AdvPerturb</b></td>
+				<td style="font-size: large;text-align: center"><b>Audio Watermark</b></td>
 			</tr>
 			<tr>
 				<td class="colname">Audios</td>
-				<td><audio controls style="width: 200px"><source src="./audio_backdoor/original.wav" type="audio/wav" >Your browser does not support the audio element.</audio></td>
-				<td><audio controls style="width: 200px"><source src="./audio_backdoor/freqTone.wav" type="audio/wav">Your browser does not support the audio element.</audio></td>
-				<td><audio controls style="width: 200px"><source src="./audio_backdoor/backnoise.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
-				<td><audio controls style="width: 200px"><source src="./audio_backdoor/advbackdoor.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
-				<td><audio controls style="width: 200px"><source src="./audio_backdoor/audiowatermark.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./audio_backdoor/original.wav" type="audio/wav" >Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./audio_backdoor/freqTone.wav" type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./audio_backdoor/backnoise.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./audio_backdoor/advbackdoor.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./audio_backdoor/audiowatermark.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
 			</tr>
 			<tr>
 				<td class="colname">Spectrogram</td>
@@ -166,20 +166,20 @@
 		<p style="text-align: center; font-size: 30px;"> Dataset Modification</p>
 		<table class="table" style="margin-top: 20px;">
 			<tr>
-				<td style="font-size: large;"><b>Original</b></td>
-				<td style="font-size: large;"><b>Labels</b></td>
-				<td style="font-size: large;"><b>BadNets</b></td>
-				<td style="font-size: large;"><b>Blended</b></td>
-				<td style="font-size: large;"><b>WaNet</b></td>
-				<td style="font-size: large;"><b>ReFool</b></td>
+				<td style="font-size: large;"><b>Protection:</b></td>
+				<td style="font-size: large; text-align: center"><b>No Protection</b></td>
+				<td style="font-size: large;text-align: center"><b>BadNets</b></td>
+				<td style="font-size: large;text-align: center"><b>Blended</b></td>
+				<td style="font-size: large;text-align: center"><b>WaNet</b></td>
+				<td style="font-size: large;text-align: center"><b>ReFool</b></td>
 			</tr>
 			<tr>
 				<td class="colname">Audios</td>
-				<td><audio controls style="width: 200px"><source src="./img_backdoor/original.wav" type="audio/wav" >Your browser does not support the audio element.</audio></td>
-				<td><audio controls style="width: 200px"><source src="./img_backdoor/badnet.wav" type="audio/wav">Your browser does not support the audio element.</audio></td>
-				<td><audio controls style="width: 200px"><source src="./img_backdoor/blended.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
-				<td><audio controls style="width: 200px"><source src="./img_backdoor/wanet.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
-				<td><audio controls style="width: 200px"><source src="./img_backdoor/refool.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./img_backdoor/original.wav" type="audio/wav" >Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./img_backdoor/badnet.wav" type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./img_backdoor/blended.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./img_backdoor/wanet.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./img_backdoor/refool.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
 			</tr>
 			<tr>
 				<td class="colname">Spectrogram</td>
@@ -207,24 +207,28 @@
 				<td class="falselabel">Speaker 1</td>
 			</tr>
 		</table>
-
+		<p>The <b>Dataset Modification</b> indicates the modified sample in the process of crafting the watermark dataset, and the <b>Ownership Verification</b> represents the verification sample during the verification stage. 
+		From left to right, the BadNets inject a square as a watermark; the Blended mixes a random spectrogram (white noise) as a watermark; the WaNet introduces a wrapping operation to the spectrogram as a watermark, causing the formant to vibrate; the ReFool use the reflection as watermark, enhancing the watermark's invisibility. 
+		<br>
+		In the <b>Dataset Modification</b> stage, all of them are dirty-label protection because the dataset owner modify the original label from Speaker-0 to modified label Speaker-1. This change make the protected dataset vulnerble because the data sample is mis-labled.
+	</p>		
 		<p style="text-align: center; font-size: 30px;"> Ownership Verification</p>
 		<table class="table" style="margin-top: 20px;">
 			<tr>
-				<td style="font-size: large;"><b>Original</b></td>
-				<td style="font-size: large;"><b>Labels</b></td>
-				<td style="font-size: large;"><b>BadNets</b></td>
-				<td style="font-size: large;"><b>Blended</b></td>
-				<td style="font-size: large;"><b>WaNet</b></td>
-				<td style="font-size: large;"><b>ReFool</b></td>
+				<td style="font-size: large;"><b>Protection:</b></td>
+				<td style="font-size: large;text-align: center"><b>No Protection</b></td>
+				<td style="font-size: large;text-align: center"><b>BadNets</b></td>
+				<td style="font-size: large;text-align: center"><b>Blended</b></td>
+				<td style="font-size: large;text-align: center"><b>WaNet</b></td>
+				<td style="font-size: large;text-align: center"><b>ReFool</b></td>
 			</tr>
 			<tr>
 				<td class="colname">Audios</td>
-				<td><audio controls style="width: 200px"><source src="./img_backdoor/original.wav" type="audio/wav" >Your browser does not support the audio element.</audio></td>
-				<td><audio controls style="width: 200px"><source src="./img_backdoor/badnet.wav" type="audio/wav">Your browser does not support the audio element.</audio></td>
-				<td><audio controls style="width: 200px"><source src="./img_backdoor/blended.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
-				<td><audio controls style="width: 200px"><source src="./img_backdoor/wanet.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
-				<td><audio controls style="width: 200px"><source src="./img_backdoor/refool.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./img_backdoor/original.wav" type="audio/wav" >Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./img_backdoor/badnet.wav" type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./img_backdoor/blended.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./img_backdoor/wanet.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./img_backdoor/refool.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
 			</tr>
 			<tr>
 				<td class="colname">Spectrogram</td>
@@ -253,35 +257,34 @@
 			</tr>
 		</table>
 		<p>
-			The <b>Dataset Modification</b> indicates the modified sample in the process of crafting the watermark dataset, and the <b>Ownership Verification</b> represents the verification sample during the verification stage. From left to right, the BadNets inject a square as a watermark; the Blended mixes a random spectrogram (white noise) as a watermark; the WaNet introduces a wrapping operation to the spectrogram as a watermark, causing the formant to vibrate; the ReFool use the reflection as watermark, enhancing the watermark's invisibility. 
-			All of them are dirty-label backdoors as they change the original label from Speaker-0 to modified label Speaker-1, and the verification sample has to <b><span style="color: red;">contain the exact same watermark pattern </span></b> during the verification stage. During the verification, the dataset owner expect to find the <b><span style="color: blue;">Expected Label</span></b>
-			when feed the verification sample. If the prediction is matched with the <b><span style="color: blue;">Expected Label</span></b>, then the verification is success. However, if they match with the expected label, it shows difference with the ground truth label, which introduce harmful risk to legal users' model.
+			In the <b>Ownership Verification</b> stage, the dataset protector feed the verify sample and check the model output, they expect to find the malicious model produce <b><span style="color: blue;">Expected Label</span></b>. As can be seen that those protections require the verify sample <b><span style="color: red;">contain the exact same watermark pattern </span></b>. 
+			However, as the <b><span style="color: blue;">Expected Label</span></b> is different from the ground truth label, indicating those protections are <b><span style="color: red;">harmful</span></b> because they introduce backdoors to the model which trained on the protected dataset.
 		</p>
 		<h2>Compare with <span style="color: blue;">Clean-Label</span> Image Dataset Protections </h2>
 		<p>We compare our Audio Watermark with <b>Dirty-Label</b> image backdoor-based protection with different trigger designs:</p>
 		<ol>
-			<li> <b>Label-Consistent</b> injects four yellow square into the corner of the spectrogram</li>
-			<li> <b>SleeperAgent</b> injects invisible watermark during prepare
+			<li> <b><a href="https://arxiv.org/pdf/1912.02771">Label-Consistent [arXiv 2019]</a></b> injects four yellow square into the corner of the spectrogram</li>
+			<li> <b><a href="https://proceedings.neurips.cc/paper_files/paper/2022/file/79eec295a3cd5785e18c61383e7c996b-Paper-Conference.pdf">Sleeper Agent [NeurIPS 2022]</a></b> injects invisible watermark during prepare
 				the dataset but verifies the ownership with an obvious trigger</li>
-			<li> <b>Domain Watermark</b> injects a style-transfered watermark while preserving the original label</li>
+			<li> <b><a href="https://proceedings.neurips.cc/paper_files/paper/2023/file/aa6287ca31ae1474ea802342d0c8ba63-Paper-Conference.pdf">Domain Watermark[NeurIPS 2023]</a></b> injects a style-transfered watermark while preserving the original label</li>
 		</ol>
 		<p style="text-align: center; font-size: 30px;"> Dataset Modification</p>
 		<table class="table" style="margin-top: 20px;">
 			<tr>
-				<td style="font-size: large;"><b>Labels</b></td>
-				<td style="font-size: large;"><b>Original</b></td>
-				<td style="font-size: large;"><b>Label-Consist</b></td>
-				<td style="font-size: large;"><b>SleeperAgent</b></td>
-				<td style="font-size: large;"><b>DomainWatermark</b></td>
-				<td style="font-size: large;"><b>Ours</b></td>
+				<td style="font-size: large;"><b>Protection:</b></td>
+				<td style="font-size: large;text-align: center"><b>No Protection</b></td>
+				<td style="font-size: large;text-align: center"><b>Label-Consist</b></td>
+				<td style="font-size: large;text-align: center"><b>Sleeper Agent</b></td>
+				<td style="font-size: large;text-align: center"><b>Domain Watermark</b></td>
+				<td style="font-size: large; text-decoration: underline;text-align: center" ><b>Audio Watermark</b></td> <!--Comment Audio Watermark is OURS; Explain Original-->
 			</tr>
 			<tr>
 				<td class="colname">Audios</td>
-				<td><audio controls style="width: 200px"><source src="./img_backdoor/original.wav" type="audio/wav" >Your browser does not support the audio element.</audio></td>
-				<td><audio controls style="width: 200px"><source src="./img_backdoor/labelconsist.wav" type="audio/wav">Your browser does not support the audio element.</audio></td>
-				<td><audio controls style="width: 200px"><source src="./img_backdoor/sleeperAgent.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
-				<td><audio controls style="width: 200px"><source src="./img_backdoor/domainWatermark.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
-				<td><audio controls style="width: 200px"><source src="./img_backdoor/audiowatermark.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./img_backdoor/original.wav" type="audio/wav" >Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./img_backdoor/labelconsist.wav" type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./img_backdoor/sleeperAgent.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./img_backdoor/domainWatermark.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./img_backdoor/audiowatermark.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
 			</tr>
 			<tr>
 				<td class="colname">Spectrogram</td>
@@ -309,24 +312,25 @@
 				<td class="correctlabel">Speaker 0</td>
 			</tr>
 		</table>
-
+		<p> For <span style="color: blue;">Clean-Label</span> image dataset protection, the dataset protector inject watermark without editing the groundtruth label. Among those protections, the Label-Consist and Sleeper Agent only modify a specific 
+			class. In this case, they only inject watermark to <span style="color: green;">Speaker-0</span>. In contrast, Domain Watermark and our Audio Watermark apply watermark to all classes. </p>
 		<p style="text-align: center; font-size: 30px;"> Ownership Verification</p>
 		<table class="table" style="margin-top: 20px;">
 			<tr>
-				<td style="font-size: large;"><b>Labels</b></td>
-				<td style="font-size: large;"><b>Original</b></td>
-				<td style="font-size: large;"><b>Label-Consist</b></td>
-				<td style="font-size: large;"><b>SleeperAgent</b></td>
-				<td style="font-size: large;"><b>DomainWatermark</b></td>
-				<td style="font-size: large;"><b>Ours</b></td>
+				<td style="font-size: large;"><b>Protection:</b></td>
+				<td style="font-size: large;text-align: center"><b>No Protection</b></td>
+				<td style="font-size: large;text-align: center"><b>Label-Consist</b></td>
+				<td style="font-size: large;text-align: center"><b>Sleeper Agent</b></td>
+				<td style="font-size: large;text-align: center"><b>Domain Watermark</b></td>
+				<td style="font-size: large;text-decoration: underline;text-align: center"><b>Audio Watermark</b></td>
 			</tr>
 			<tr>
 				<td class="colname">Audios</td>
-				<td><audio controls style="width: 200px"><source src="./img_backdoor/original.wav" type="audio/wav" >Your browser does not support the audio element.</audio></td>
-				<td><audio controls style="width: 200px"><source src="./img_backdoor/labelconsist_v.wav" type="audio/wav">Your browser does not support the audio element.</audio></td>
-				<td><audio controls style="width: 200px"><source src="./img_backdoor/sleeperAgent_v.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
-				<td><audio controls style="width: 200px"><source src="./img_backdoor/domainWatermark_v.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
-				<td><audio controls style="width: 200px"><source src="./img_backdoor/audiowatermark_v.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./img_backdoor/original.wav" type="audio/wav" >Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./img_backdoor/labelconsist_v.wav" type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./img_backdoor/sleeperAgent_v.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./img_backdoor/domainWatermark_v.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
+				<td><audio controls style="width: 224px"><source src="./img_backdoor/audiowatermark_v.wav"  type="audio/wav">Your browser does not support the audio element.</audio></td>
 			</tr>
 			<tr>
 				<td class="colname">Spectrogram</td>
@@ -354,10 +358,18 @@
 				<td class="correctlabel">Speaker 0</td>
 			</tr>
 		</table>
+		<p> In the <b>Ownership Verification</b> stage, the dataset protector feed the verify sample and check the model output, they expect to find the malicious model produce <b><span style="color: blue;">Expected Label</span></b>.
+			For Label-Consist and Sleeper Agent, the dataset protector feed a different class (e.g., <b><span style="color: green;">Speaker 1</span></b>) with their watermark, and check if the malicious model will produce the <b><span style="color: blue;">Expected Label</span></b>
+			(<b><span style="color: red;">Speaker 0</span></b>). However, this verification is harmful because there is a mis-match between the original label and the predictions. For comparision, the Domain Watermark and our Audio Watermark expect the 
+			prediction of the watermarked sample aligned with their original label, therefore not introduce new vulnerbility. Compared to Domain Watermark, our watermark has less distortion, and not affect the model performance. </p>
+			<div style="border-top: 1px solid grey;"></div>
+	<h2>Conclusion </h2>
+	<p>We propose Audio Watermark, a harmless audio watermark technology designed to protect the copyright of voice dataset. 
+The dataset protector embeds a watermark into their dataset and identifies the artifacts in models trained with this watermarked data to verify its usage. Our findings demonstrate that our watermark outperforms existing protections, achieving a high verification success rate, low harmful degree, and minimal distortion. </p>
 
-
-	</div>
-</body>
+	
+		</div>
+	</body>
 	
 	
 	
