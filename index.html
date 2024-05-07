@@ -58,7 +58,7 @@
 			require that they can only be adopted for academic or educational
 			purposes, 
 			yet there is currently no effective method to ensure compliance with these conditions. 
-			Ideally, the dataset owner can apply a watermark to their dataset, enabling them to identify any model that utilizes the watermarked data. While traditional backdoor-based approaches can achieve this objective, they present significant drawbacks: 1) they introduce harmful backdoors into the model; 2) they are ineffective with black-box models; 3) they compromise audio quality; 4) they are easily detectable due to their static backdoor patterns. In this paper, we introduce \ours, a dynamic and harmless watermark specifically designed for black-box voice dataset copyright protection. The dynamism of the watermark is achieved through a style-transfer generative model and random reference style patterns; its harmlessness is ensured by utilizing an out-of-domain (OOD) feature, which allows the watermark to be correctly recognized by the watermarked model without altering the ground truth label. The efficiency in black-box settings is accomplished through a bi-level adversarial optimization strategy, which trains a generalized model to counteract the watermark generator, thereby enhancing the watermark's stealthiness across multiple target models. We evaluate our watermark across 2 voice datasets and 10 speaker recognition models, comparing it with 10 existing protections and testing it in 8 attack scenarios. Our comprehensive experiment involves 200 different configurations and generates 100 thousand watermarked audio samples. Ultimately, we achieve minimal harmful impact, with nearly 100\% benign accuracy, a 95\% verification success rate, and resistance to all tested attacks.</p>
+			Ideally, the dataset owner can apply a watermark to their dataset, enabling them to identify any model that utilizes the watermarked data. While traditional backdoor-based approaches can achieve this objective, they present significant drawbacks: 1) they introduce harmful backdoors into the model; 2) they are ineffective with black-box models; 3) they compromise audio quality; 4) they are easily detectable due to their static backdoor patterns. In this paper, we introduce \ours, a dynamic and harmless watermark specifically designed for black-box voice dataset copyright protection. The dynamism of the watermark is achieved through a style-transfer generative model and random reference style patterns; its harmlessness is ensured by utilizing an out-of-domain (OOD) feature, which allows the watermark to be correctly recognized by the watermarked model without altering the ground truth label. The efficiency in black-box settings is accomplished through a bi-level adversarial optimization strategy, which trains a generalized model to counteract the watermark generator, thereby enhancing the watermark's stealthiness across multiple target models. We evaluate our watermark across 2 voice datasets and 10 speaker recognition models, comparing it with 10 existing protections and testing it in 8 attack scenarios. Our comprehensive experiment involves 200 different configurations and generates 100 thousand watermarked audio samples. Ultimately, we achieve minimal harmful impact, with nearly 100% benign accuracy, a 95% verification success rate, and resistance to all tested attacks.</p>
 			<div style="border-top: 1px solid grey;"></div>
 			<center>
 				<img src="./img/cover.png" width="600" height="360" alt="Watermark Scenario">>
@@ -100,9 +100,9 @@
 		<h2>Compare with Audio Protections </h2>
 		<p>We compare our Audio Watermark with state-of-the-art audio backdoor-based dataset protection with different trigger designs:</p>
 		<ol>
-			<li> <b>FreqTone</b> injects a 600ms single-frequency tone at 4KHz in the end of the speech</li>
-			<li> <b>Backnoise</b> injects a 800ms background noise at the beginning of speech</li>
-			<li> <b>AdvPerturb</b> injects a 400ms adversarial perturbation at a random position of speech</li>
+			<li> <b><a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=9413468">FreqTone [ICASSP 2021]</a></b> injects a 600ms single-frequency tone at 4KHz in the end of the speech</li>
+			<li> <b><a href="https://scholarship.libraries.rutgers.edu/esploro/outputs/991031794682704646?institution=01RUT_INST&skipUsageReporting=true&recordUsage=false">Backnoise [NDSS 2018]</a></b> injects a 800ms background noise at the beginning of speech</li>
+			<li> <b><a href="https://dl.acm.org/doi/pdf/10.1145/3495243.3560531">AdvPerturb [Mobicom 2022]</a></b> injects a 400ms adversarial perturbation at a random position of speech</li>
 		</ol>
 		<!-- <p>
 			<center>
@@ -113,9 +113,9 @@
 			<tr>
 				<td style="font-size: large;"><b>Labels</b></td>
 				<td style="font-size: large;"><b>Original</b></td>
-				<td style="font-size: large;"><b>FreqTone</b></td>
-				<td style="font-size: large;"><b>Backnoise</b></td>
-				<td style="font-size: large;"><b>AdvPerturb</b></td>
+				<td style="font-size: large;"><b> FreqTone </b></td>
+				<td style="font-size: large;"><b> Backnoise</b></td>
+				<td style="font-size: large;"><b> AdvPerturb</b></td>
 				<td style="font-size: large;"><b>Audio Watermark</b></td>
 			</tr>
 			<tr>
@@ -152,14 +152,16 @@
 				<td class="correctlabel">Speaker 0</td>
 			</tr>
 		</table>
+		<p>We reproduced three backdoor-based voice dataset protections. FreqTone uses a fixed tone as a trigger, Backnoise applies noise as a watermark, and AdvBackdoor optimizes a pattern to inject watermark.
+			Figure above demonstrates the watermark pattern. On the left, a benign audio from Speaker-0 is present, followed by the watermarked version of each approach. As can be observed in the figure, the FreqTone introduces a fixed tone at a specific frequency; the Backnoise applies a white-noise pattern to serve as backdoor; The AdvBackdoor uses a patch as a watermark. All of them convert the ground truth label from Speaker-0 to Speaker-1, indicating the dirty-label attack. For comparison, our (Audio Watermark) is invisible and imperceptive, meanwhile, the label of the watermarked audio is not changed.</p>
 		<div style="border-top: 1px solid grey;"></div>
 		<h2>Compare with <span style="color: blue;">Dirty-Label</span> Image Dataset Protections </h2>
 		<p>We compare our Audio Watermark with <b>Dirty-Label</b> image backdoor-based protection with different trigger designs:</p>
 		<ol>
-			<li> <b>BadNets</b> injects a yellow square into the right corner of the spectrogram</li>
-			<li> <b>Blended</b> blends a noise pattern to the complete spectrogram</li>
-			<li> <b>WaNet</b>  introduces a wrapping operation to the spectrogram as a watermark</li>
-			<li> <b>ReFool</b>  uses the reflection as watermark, enhancing the watermark invisibility</li>
+			<li> <b><a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=8685687">BadNets [IEEE Access 2019]</a></b> injects a yellow square into the right corner of the spectrogram</li>
+			<li> <b><a href="https://openaccess.thecvf.com/content/ICCV2021/papers/Li_Invisible_Backdoor_Attack_With_Sample-Specific_Triggers_ICCV_2021_paper.pdf">Blended [ICCV 2021]</a></b> blends a noise pattern to the complete spectrogram</li>
+			<li> <b><a href="https://arxiv.org/pdf/2102.10369">WaNet [ICLR 2021]</a></b>  introduces a wrapping operation to the spectrogram as a watermark</li>
+			<li> <b><a href="https://arxiv.org/pdf/2007.02343">ReFool [ECCV 2020]</a></b>  uses the reflection as watermark, enhancing the watermark invisibility</li>
 		</ol>
 		<p style="text-align: center; font-size: 30px;"> Dataset Modification</p>
 		<table class="table" style="margin-top: 20px;">
@@ -250,6 +252,11 @@
 				<td class="falselabel">Speaker 1</td>
 			</tr>
 		</table>
+		<p>
+			The <b>Dataset Modification</b> indicates the modified sample in the process of crafting the watermark dataset, and the <b>Ownership Verification</b> represents the verification sample during the verification stage. From left to right, the BadNets inject a square as a watermark; the Blended mixes a random spectrogram (white noise) as a watermark; the WaNet introduces a wrapping operation to the spectrogram as a watermark, causing the formant to vibrate; the ReFool use the reflection as watermark, enhancing the watermark's invisibility. 
+			All of them are dirty-label backdoors as they change the original label from Speaker-0 to modified label Speaker-1, and the verification sample has to <b><span style="color: red;">contain the exact same watermark pattern </span></b> during the verification stage. During the verification, the dataset owner expect to find the <b><span style="color: blue;">Expected Label</span></b>
+			when feed the verification sample. If the prediction is matched with the <b><span style="color: blue;">Expected Label</span></b>, then the verification is success. However, if they match with the expected label, it shows difference with the ground truth label, which introduce harmful risk to legal users' model.
+		</p>
 		<h2>Compare with <span style="color: blue;">Clean-Label</span> Image Dataset Protections </h2>
 		<p>We compare our Audio Watermark with <b>Dirty-Label</b> image backdoor-based protection with different trigger designs:</p>
 		<ol>
