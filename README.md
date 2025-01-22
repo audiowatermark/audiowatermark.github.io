@@ -75,7 +75,7 @@ For a watermarked model, we genreate watermark samples in 10 rounds. In each rou
 
 The x is testing epochs. For each epoch, we generate 
 
-![Alt text](python_figures/poison_setresnet18_0.1_20.png)
+![Alt text](code/python_figures/poison_setresnet18_0.1_20.png)
 
 The audio demos, more models, and noise sources, can be found in our code, and our demo website [webpage](https://audiowatermark.github.io/)
 
