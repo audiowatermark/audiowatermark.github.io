@@ -1,0 +1,51 @@
+data:
+    sr: 16000
+    nfft: 512 #For mel spectrogram preprocess
+    window: 0.025 #(s)
+    hop: 0.01 #(s)
+    nmels: 225 #Number of mel energies
+    tisv_frame: 180 #Max number of time steps in input after preprocess
+---   
+model:
+    hidden: 768 #Number of LSTM hidden layer units
+    num_layer: 3 #Number of LSTM layers
+    proj: 256 #Embedding size
+    # model_path_resnet: './checkpoints/resnet_baseline/ckpt_epoch_100_batch_id_283.pth'
+    # model_path_res34: './checkpoints/resnet34_baseline/ckpt_epoch_2000_batch_id_70.pth'
+    # model_path_vgg: './checkpoints/vgg_baseline/ckpt_epoch_2000_batch_id_283.pth'
+    model_path: './checkpoints_paper/glg_PT_15_100_T_T/ckpt_epoch_940_batch_id_283.pth'
+    # model_path: './checkpoints_paper/lstm_baseline_TE2E/ckpt_epoch_2_batch_id_283.pth'
+
+---
+poison:
+    clean_model_path: "./speech_id_checkpoint/final_epoch_950_batch_id_283.model"
+    epoch: !!int "5"
+    cluster_path: "./cluster_results.npy"
+    poison_train_path: "./train_set/atk_air_65_1"  # Where to save the poison dataset, will be then used to data.train_path
+    poison_test_path: "./test_set/test_PT_15_100"  # The pure trigger location, each one is same, use them to attack enroll speakers
+    trigger_path: "trigger_series_poison"
+    vol_noise: !!float "1e-3" #Abstract volume of the trigger
+    num_centers: !!int "1" #Cluster number
+    p_class: !!float "1" #It's okay to inject only a part of the classes
+    p_inclass: !!float "0.15" #Trigger proportio
+    threash: !!float "0.7"
+---
+train:
+    N : 2 #Number of speakers in batch; before is 2
+    M : 6 #Number of utterances per speaker
+    num_workers: 0 #number of workers for dataloader
+    lr: 0.01
+    epochs: 2000 #Max training speaker epoch
+    log_interval: 10 #Epochs before printing progress
+    log_file: './checkpoints/one_onehot_trigger_PT_15_100/Stats'
+    checkpoint_interval: 20 #Save model after x speaker epochs
+    checkpoint_dir: './checkpoints/one_onehot_trigger_PT_15_100'
+    restore: !!bool "True" #Resume training from previous model path
+---
+test:
+    TR: !!bool "False" # if we test on poisoned speakers
+    PS: "./train_set/poison_records/train_PT_15_95_1.npy"  # poisoned speakers' ids
+    N: 4 #Number of speakers in batch
+    M: 6 #Number of utterances per speaker
+    num_workers: 1 #number of workers for data loader
+    epochs: 5 #testing speaker epochs
